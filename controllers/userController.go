@@ -9,9 +9,9 @@ import(
 "time"
 "github.com/gin-gonic/gin"
 "github.com/go-playground/validator/v10"
-helper "github.com/akhil/golang-jwt-project/helpers"
-"github.com/akhil/golang-jwt-project/models"
-"github.com/akhil/golang-jwt-project/database"
+helper "github.com/KiranDesh/ecommece/helpers"
+"github.com/KiranDesh/ecommece/models"
+"github.com/KiranDesh/ecommece/database"
 "golang.org/x/crypto/bcrypt"
 
 "go.mongodb.org/mongo-driver/bson"
