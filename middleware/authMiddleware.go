@@ -3,7 +3,7 @@ package middleware
 import(
 	"fmt"
 	"net/http"
-	helper "github.com/akhil/golang-jwt-project/helpers"
+	helper "github.com/KiranDesh/ecommece/helpers"
 	"github.com/gin-gonic/gin"
 )
 
