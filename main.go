@@ -1,38 +1,36 @@
 package main
 
-import(
-	routes "github.com/akhil/golang-jwt-project/routes"
-	"os"
+import (
 	"log"
+	"os"
+
+	"github.com/KiranDesh/ecommece/controllers"
+	"github.com/KiranDesh/ecommece/database"
+	"github.com/KiranDesh/ecommece/middleware"
+	"github.com/KiranDesh/ecommece/routes"
+
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 )
 
-func main(){
-	err := godotenv.Load(".env")
-
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+func main() {
 	port := os.Getenv("PORT")
-
-	if port==""{
-		port="8000"
+	if port == "" {
+		port = "8000"
 	}
+	app := controllers.NewApplication(database.ProductData(database.Client, "Products"), database.UserData(database.Client, "Users"))
 
 	router := gin.New()
 	router.Use(gin.Logger())
-
-	routes.AuthRoutes(router)
 	routes.UserRoutes(router)
-
-	router.GET("/api-1", func(c *gin.Context){
-		c.JSON(200, gin.H{"success":"Access granted for api-1"})
-	})
-
-	router.GET("/api-2", func(c *gin.Context){
-		c.JSON(200, gin.H{"success":"Access granted for api-2"})
-	})
-
-	router.Run(":" + port)
-}	
+	router.Use(middleware.Authenticate())
+	router.GET("/addtocart", app.AddToCart())
+	router.GET("/removeitem", app.RemoveItem())
+	router.GET("/listcart", controllers.GetItemFromCart())
+	router.POST("/addaddress", controllers.AddAddress())
+	router.PUT("/edithomeaddress", controllers.EditHomeAddress())
+	router.PUT("/editworkaddress", controllers.EditWorkAddress())
+	router.GET("/deleteaddresses", controllers.DeleteAddress())
+	router.GET("/cartcheckout", app.BuyFromCart())
+	router.GET("/instantbuy", app.InstantBuy())
+	log.Fatal(router.Run(":" + port))
+}
