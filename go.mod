@@ -1,4 +1,4 @@
-module github.com/akhil/golang-jwt-project
+module github.com/KiranDesh/ecommece
 
 go 1.16
 
