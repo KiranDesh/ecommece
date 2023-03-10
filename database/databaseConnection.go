@@ -31,11 +31,6 @@ func DBinstance() *mongo.Client {
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = client.Ping(context.TODO(), nil)
-	if err != nil {
-		log.Println("failed to connect to mongodb")
-		return nil
-	}
 	fmt.Println("Connected to MongoDB!")
 
 	return client
@@ -44,10 +39,6 @@ func DBinstance() *mongo.Client {
 var Client *mongo.Client = DBinstance()
 
 func OpenCollection(client *mongo.Client, collectionName string) *mongo.Collection {
-	var collection *mongo.Collection = client.Database("Ecommerce").Collection(collectionName)
+	var collection *mongo.Collection = client.Database("cluster0").Collection(collectionName)
 	return collection
-}
-func ProductData(client *mongo.Client, collectionName string) *mongo.Collection {
-	var productcollection *mongo.Collection = client.Database("Ecommerce").Collection(collectionName)
-	return productcollection
 }
